@@ -11,6 +11,8 @@ import com.googlecode.lanterna.terminal.TerminalResizeListener;
 import java.io.IOException;
 
 public class Tutorial2 {
+    private static TerminalSize lastTerminalSize;
+
     public static void main(String[] args) {
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
         Terminal terminal = null;
@@ -25,6 +27,8 @@ public class Tutorial2 {
             textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
             textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
 
+            textGraphics.putString(2, terminal.getTerminalSize().getRows() - 2, "Terminal class: ", SGR.BOLD);
+            textGraphics.putString(2 + "Terminal class: ".length(), terminal.getTerminalSize().getRows() - 2, terminal.getClass().toString());
             textGraphics.putString(2, 1, "Lanterna Tutorial 2 - Press ESC to exit", SGR.BOLD);
             textGraphics.setForegroundColor(TextColor.ANSI.DEFAULT);
             textGraphics.setBackgroundColor(TextColor.ANSI.DEFAULT);
@@ -32,13 +36,20 @@ public class Tutorial2 {
             textGraphics.putString(5 + "Terminal Size: ".length(), 3, terminal.getTerminalSize().toString());
             terminal.flush();
 
+            lastTerminalSize = terminal.getTerminalSize();
+
             terminal.addResizeListener(new TerminalResizeListener() {
                 @Override
                 public void onResized(Terminal terminal, TerminalSize terminalSize) {
                     textGraphics.drawLine(5, 3, terminalSize.getColumns() - 1, 3, ' ');
                     textGraphics.putString(5, 3, "Terminal Size: ", SGR.BOLD);
                     textGraphics.putString(5 + "Terminal Size: ".length(), 3, terminalSize.toString());
+
                     try {
+                        textGraphics.drawLine(2, lastTerminalSize.getRows() - 2, terminalSize.getColumns(), lastTerminalSize.getRows() - 2, ' ');
+                        textGraphics.putString(2, terminal.getTerminalSize().getRows() - 2, "Terminal class: ", SGR.BOLD);
+                        textGraphics.putString(2 + "Terminal class: ".length(), terminal.getTerminalSize().getRows() - 2, terminal.getClass().toString());
+                        lastTerminalSize = terminal.getTerminalSize();
                         terminal.flush();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
