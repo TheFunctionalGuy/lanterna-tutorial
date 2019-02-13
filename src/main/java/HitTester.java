@@ -53,12 +53,16 @@ public class HitTester {
                     );
                     TextCharacter character = screen.getBackCharacter(cellToHit);
                     if (!(character.getCharacter() == '+')) {
-                        int characterAsInt = Integer.parseInt("" + character.getCharacter());
-                        characterAsInt++;
-                        if (characterAsInt >= 10) {
-                            character = character.withCharacter('+');
+                        if (character.getCharacter() == ' ') {
+                            character = character.withCharacter('0');
                         } else {
-                            character = character.withCharacter(("" + characterAsInt).charAt(0));
+                            int characterAsInt = Integer.parseInt("" + character.getCharacter());
+                            characterAsInt++;
+                            if (characterAsInt >= 10) {
+                                character = character.withCharacter('+');
+                            } else {
+                                character = character.withCharacter(("" + characterAsInt).charAt(0));
+                            }
                         }
                         screen.setCharacter(cellToHit, character);
                     }
