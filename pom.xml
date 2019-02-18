@@ -13,7 +13,12 @@
         <module>tutorial02</module>
         <module>tutorial03</module>
         <module>tutorial04</module>
+        <module>hit-tester</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
